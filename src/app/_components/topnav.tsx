@@ -8,7 +8,7 @@ export function TopNav() {
   return (
     <nav className="flex items-center justify-between border-b p-4 text-xl font-semibold bg-gray-800 text-white">
       <Link href="/" className="cursor-pointer text-2xl font-bold text-white hover:text-gray-300" aria-label="home">
-        Pampanga
+        Pampanga 
       </Link>
       <div className="flex flex-row space-x-6">
       <Link href="/" className="text-blue-400 hover:text-blue-600" aria-label="home">Home</Link>
