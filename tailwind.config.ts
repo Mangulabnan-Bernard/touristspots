@@ -1,14 +1,30 @@
-import { type Config } from "tailwindcss";
-import { fontFamily } from "tailwindcss/defaultTheme";
-
-export default {
-  content: ["./src/**/*.tsx"],
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
+      keyframes: {
+        "float-left": {
+          "0%": { transform: "translateX(100vw) translateY(0)", opacity: "0" },
+          "20%": { opacity: "1" },
+          "80%": { opacity: "1" },
+          "100%": { transform: "translateX(-100vw) translateY(50px)", opacity: "0" },
+        },
+        "float-right": {
+          "0%": { transform: "translateX(-100vw) translateY(0)", opacity: "0" },
+          "20%": { opacity: "1" },
+          "80%": { opacity: "1" },
+          "100%": { transform: "translateX(100vw) translateY(-50px)", opacity: "0" },
+        },
+      },
+      animation: {
+        "float-left": "float-left 15s linear infinite",
+        "float-right": "float-right 15s linear infinite",
       },
     },
   },
   plugins: [],
-} satisfies Config;
+};

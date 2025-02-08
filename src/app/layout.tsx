@@ -32,7 +32,8 @@ export default function RootLayout({
            */
           routerConfig={extractRouterConfig(ourFileRouter)}
         />
-        <TopNav />
+        
+         <TopNav />
         {children}
       </body>
     </html>

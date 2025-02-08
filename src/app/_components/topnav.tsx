@@ -11,6 +11,7 @@ export function TopNav() {
         Pampanga 
       </Link>
       <div className="flex flex-row space-x-6">
+      
       <Link href="/" className="text-blue-400 hover:text-blue-600" aria-label="home">Home</Link>
 
         <Link href="/about" className="text-blue-400 hover:text-blue-600">About</Link>

@@ -1,6 +1,4 @@
-// Example model schema from the Drizzle docs
-// https://orm.drizzle.team/docs/sql-schema-declaration
-
+// src/server/db/schema.ts
 import { sql } from "drizzle-orm";
 import {
   index,
@@ -10,21 +8,17 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-/**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects. 
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
+// Dynamic table prefix
 export const createTable = pgTableCreator((name) => `gallery_${name}`);
 
+// Define the 'images' table
 export const images = createTable(
   "images",
   {
     id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
     name: varchar("name", { length: 256 }).notNull(),
-    url: varchar ("url", {length: 1024}).notNull(),
-    userId: varchar("userId", {length: 256 }).notNull(),
+    url: varchar("url", { length: 1024 }).notNull(),
+    userId: varchar("userId", { length: 256 }).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
