@@ -21,8 +21,8 @@ module.exports = {
         },
       },
       animation: {
-        "float-left": "float-left 15s linear infinite",
-        "float-right": "float-right 15s linear infinite",
+        "float-left": "float-left 40s linear infinite",
+        "float-right": "float-right 40s linear infinite",
       },
     },
   },

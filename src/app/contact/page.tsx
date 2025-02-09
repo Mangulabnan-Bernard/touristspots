@@ -85,7 +85,7 @@ export default function ContactPage() {
             <div className="h-[400px] w-full bg-gray-200 rounded-md flex items-center justify-center">
               {/* Google Maps iframe */}
               <iframe
-                src="https://www.google.com/maps/embed/v1/place?q=Holy%20Cross%20College%2C%20Sta.%20Ana%2C%20Pampanga%2C%20Philippines&key=YOUR_GOOGLE_MAPS_API_KEY"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7704.333173787799!2d120.76517022579603!3d15.094144737023884!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3396fba8a871ef9d%3A0xcf10e5f6f2a968cc!2sHoly%20Cross%20College%20-%20Pampanga!5e0!3m2!1sen!2sph!4v1739098898523!5m2!1sen!2sph"
                 width="100%"
                 height="100%"
                 frameBorder="0"
