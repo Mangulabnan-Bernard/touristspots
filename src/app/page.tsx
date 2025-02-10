@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -7,25 +6,24 @@ import { images } from "~/server/db/schema";
 
 export default function HomePage() {
   const router = useRouter();
-  
-  // State to store images that will be displayed
-  const [uploadedImages, setUploadedImages] = useState<
-    { id: number; url: string; top: string; left: string; direction: string }[]
-  >([]);
-  
-  // State to store all fetched images from the database
-  const [allFetchedImages, setAllFetchedImages] = useState<
-    { id: number; url: string }[]
+
+  const [floatingImages, setFloatingImages] = useState<
+    { id: number; url: string; top: number; left: number }[]
   >([]);
 
+  const [allImages, setAllImages] = useState<{ id: number; url: string }[]>([]);
+
   useEffect(() => {
+    // Fetch images from the database
     const fetchImages = async () => {
       try {
-        // Fetch images from the database
         const result = await db.select().from(images);
-        const shuffledImages = result.sort(() => Math.random() - 0.5);
-        setAllFetchedImages(shuffledImages);
-        updateDisplayedImages(shuffledImages.slice(0, 30));
+        if (result.length === 0) {
+          console.error("No images found in the database.");
+          return;
+        }
+        setAllImages(result);
+        initializeFloatingImages(result);
       } catch (error) {
         console.error("Failed to fetch images", error);
       }
@@ -33,46 +31,61 @@ export default function HomePage() {
     fetchImages();
   }, []);
 
-  // Function to update the displayed images with random positions and directions
-  const updateDisplayedImages = (imagesToDisplay: { id: number; url: string }[]) => {
-    const newImages = imagesToDisplay.map((image) => ({
+  // Initialize floating images with random positions
+  const initializeFloatingImages = (images: { id: number; url: string }[]) => {
+    if (images.length === 0) return;
+
+    // Initialize with dynamic random positions for each image
+    const initialImages = images.map((image) => ({
       id: image.id,
       url: image.url,
-      top: `${Math.random() * 200}vh`,
-      left: `${Math.random() * 150}vw`,
-      direction: Math.random() < 0.5 ? "left" : "right",
+      top: Math.random() * 100, // Random vertical position between 0-100%
+      left: Math.random() * 100, // Random horizontal position between 0-100%
     }));
-    setUploadedImages(newImages);
+
+    setFloatingImages(initialImages);
   };
 
   useEffect(() => {
-    // Interval to periodically update the displayed images
+    // This effect controls the movement of floating images
     const interval = setInterval(() => {
-      if (allFetchedImages.length > 30) {
-        const shuffledImages = [...allFetchedImages].sort(() => Math.random() - 0.5);
-        updateDisplayedImages(shuffledImages.slice(0, 20));
-      }
-    }, 40000);
+      setFloatingImages((prevImages) =>
+        prevImages.map((img) => {
+          // Adjust the speed of the horizontal movement by changing the increment
+          let newLeft = img.left + 0.1; // Increase to make it move faster or decrease to slow down
+
+          // When the image moves off the screen, it starts from the left side again
+          if (newLeft > 100) {
+            newLeft = -10; // Adjust this value to change when the image reappears
+          }
+
+          return { ...img, left: newLeft };
+        })
+      );
+    }, 50); // This controls how fast the images move. Lower the value to speed up the movement, increase it to slow it down.
+
+    // Cleanup interval on component unmount
     return () => clearInterval(interval);
-  }, [allFetchedImages]);
+  }, []);
 
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 overflow-hidden">
-      {/* Background floating images */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        {uploadedImages.map((image) => (
-          <div
-            key={image.id}
-            className={`absolute w-32 h-32 bg-cover bg-center rounded-lg opacity-75 animate-float-${image.direction}`}
-            style={{
-              top: image.top,
-              left: image.left,
-              backgroundImage: `url(${image.url})`,
-            }}
-          ></div>
-        ))}
+        {floatingImages.map((image, index) =>
+          image ? (
+            <div
+              key={`${image.id}-${index}`} // Ensured unique key for each image
+              className="absolute w-[10vw] h-[10vh] bg-cover bg-center rounded-md opacity-80 transition-transform duration-200"
+              style={{
+                top: `${image.top}vh`, // Vertical position of the image
+                left: `${image.left}vw`, // Horizontal position of the image
+                backgroundImage: `url(${image.url})`, // Image source URL
+              }}
+            ></div>
+          ) : null
+        )}
       </div>
-      {/* Main content section */}
+
       <div className="relative z-10 text-center">
         <h1 className="text-5xl font-bold mb-6">Discover Pampanga</h1>
         <p className="text-lg text-gray-600 mb-8">Explore the most beautiful tourist spots in Pampanga.</p>
