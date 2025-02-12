@@ -83,26 +83,30 @@ export default function HomePage() {
         ))}
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 text-center px-6 py-6 bg-white/50 backdrop-blur-md rounded-lg shadow-lg">
-        <h1 className="text-5xl font-bold mb-6">Discover Pampanga</h1>
+      {/* Main Content Without Div */}
+      <h1 className="text-5xl font-serif text-blue-900 drop-shadow-lg">
+      A Journey to Remember
+      </h1>
 
-        {/* Centered Button Container */}
-        <div className="flex justify-center space-x-4 mt-4">
-          <button
-            className="w-32 h-10 flex items-center justify-center bg-blue-600 text-white rounded-lg text-md font-semibold transition-transform transform hover:scale-105"
-            onClick={() => router.push("/home")}
-          >
-            Explore More
-          </button>
+      <p className="text-lg font-serif text-blue-500 drop-shadow-lg mt-2">
+       Immerse yourself in the heart of Pampanga, where adventure and tradition come together.
+      </p>
 
-          <button
-            className="w-32 h-10 flex items-center justify-center bg-green-600 text-white rounded-lg text-md font-semibold transition-transform transform hover:scale-105"
-            onClick={() => router.push("/")}
-          >
-            Return
-          </button>
-        </div>
+      {/* Buttons */}
+      <div className="flex justify-center space-x-4 mt-6">
+        <button
+          className="w-32 h-10 flex items-center justify-center bg-blue-800 text-white rounded-lg text-md font-semibold transition-transform transform hover:scale-105"
+          onClick={() => router.push("/home")}
+        >
+          Explore More
+        </button>
+
+        <button
+          className="w-32 h-10 flex items-center justify-center bg-green-800 text-white rounded-lg text-md font-semibold transition-transform transform hover:scale-105"
+          onClick={() => router.push("/")}
+        >
+          Return
+        </button>
       </div>
     </main>
   );

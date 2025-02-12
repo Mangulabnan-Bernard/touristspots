@@ -44,7 +44,7 @@ export default function HomePage() {
       <div className="absolute top-0 left-0 w-full h-full z-0">
         {videoUrl && (
           <video
-            className="w-full h-full object-cover translate-y-[-5%]"
+            className="w-full h-full object-cover translate-y-[4%]"
             autoPlay
             muted
             loop
@@ -54,7 +54,7 @@ export default function HomePage() {
         )}
       </div>
 
-      {/* Train of images at the bottom, now closer to center */}
+      {/* Floating Images */}
       <div className="absolute bottom-24 left-0 w-full overflow-hidden z-10">
         <div className="flex animate-float-left space-x-8">
           {[...allImages, ...allImages].map((image, index) => (
@@ -67,31 +67,29 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="relative z-20 text-center px-8 py-6 bg-white/40 backdrop-blur-lg rounded-lg shadow-lg max-w-xl">
-        <h1 className="text-4xl font-serif font-bold text-gray-900 mb-4">
-          Discover Pampanga
-        </h1>
-        <p className="text-s font-mono text-gray-800 mb-6">
-          Explore the most beautiful tourist spots in Pampanga.
-        </p>
+      {/* Main Content Without Div */}
+      <h1 className="text-5xl font-serif font-bold text-blue-900 drop-shadow-lg">
+        Discover Pampanga
+      </h1>
+      <p className="text-lg font-mono text-blue-500 drop-shadow-lg mt-2">
+        Explore the most beautiful tourist spots in Pampanga.
+      </p>
 
-        {/* Buttons */}
-        <div className="flex space-x-4 justify-center">
-          <button
-            className="w-36 h-10 flex items-center justify-center bg-blue-600 text-white rounded-lg text-lg font-semibold font-sans transition-transform transform hover:scale-105"
-            onClick={() => router.push("/home")}
-          >
-            Explore More
-          </button>
+      {/* Buttons */}
+      <div className="flex space-x-4 mt-6">
+        <button
+          className="w-36 h-10 flex items-center justify-center bg-blue-900 text-white rounded-lg text-lg font-semibold font-sans transition-transform transform hover:scale-105"
+          onClick={() => router.push("/home")}
+        >
+          Explore More
+        </button>
 
-          <button
-            className="w-36 h-10 flex items-center justify-center bg-green-600 text-white rounded-lg text-lg font-semibold font-sans transition-transform transform hover:scale-105"
-            onClick={() => router.push("/highlights")}
-          >
-            View Highlights
-          </button>
-        </div>
+        <button
+          className="w-36 h-10 flex items-center justify-center bg-green-700 text-white rounded-lg text-lg font-semibold font-sans transition-transform transform hover:scale-105"
+          onClick={() => router.push("/highlights")}
+        >
+          View Highlights
+        </button>
       </div>
     </main>
   );

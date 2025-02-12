@@ -6,11 +6,11 @@ import Link from "next/link";
 export function TopNav() {
   const router = useRouter();
   return (
-<nav className="fixed top-0 left-0 w-full flex items-center justify-between p-4 text-xl font-semibold bg-transparent text-white backdrop-blur-md z-10">
+<nav className="fixed top-0 left-0 w-full flex items-center justify-between p-4 text-xl font-semibold text-white backdrop-blur-md z-10 bg-gradient-to-b from-blue-200 to-blue-600">
 {/* Logo */}
       <Link
         href="/"
-        className="cursor-pointer text-2xl font-bold text-black hover:text-gray-300 transition duration-300"
+        className="cursor-pointer text-2xl font-bold text-white hover:text-gray-300 transition duration-300"
         aria-label="home"
       >
         Pampanga
@@ -20,20 +20,20 @@ export function TopNav() {
       <div className="flex flex-row space-x-6">
         <Link
           href="/home"
-          className="text-black hover:text-gray-300 transition duration-300"
+          className="text-white hover:text-gray-300 transition duration-300"
           aria-label="home"
         >
           Home
         </Link>
         <Link
           href="/about"
-          className="text-black hover:text-gray-300 transition duration-300"
+          className="text-white hover:text-gray-300 transition duration-300"
         >
           About
         </Link>
         <Link
           href="/contact"
-          className="text-black hover:text-gray-300 transition duration-300"
+          className="text-white hover:text-gray-300 transition duration-300"
         >
           Contact
         </Link>
@@ -42,7 +42,7 @@ export function TopNav() {
         <SignedIn>
           <Link
             href="/memories"
-            className="text-black hover:text-gray-300 transition duration-300"
+            className="text-white hover:text-gray-300 transition duration-300"
           >
             Memories
           </Link>
