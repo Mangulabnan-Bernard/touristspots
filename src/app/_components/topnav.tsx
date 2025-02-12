@@ -19,7 +19,7 @@ export function TopNav() {
       {/* Navigation Links */}
       <div className="flex flex-row space-x-6">
         <Link
-          href="/"
+          href="/home"
           className="text-white hover:text-gray-300 transition duration-300"
           aria-label="home"
         >
