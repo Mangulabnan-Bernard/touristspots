@@ -10,8 +10,7 @@ dotenv.config({ path: ".env" });
 config();
 
 // Debugging: Log POSTGRES_URL to ensure it's loaded
-console.log("POSTGRES_URL in db/index.ts:", process.env.POSTGRES_URL);
-
+ 
 // Validate POSTGRES_URL
 if (!process.env.POSTGRES_URL) {
   throw new Error("POSTGRES_URL is not set. Check your .env file.");

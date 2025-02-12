@@ -7,95 +7,91 @@ import { eq } from "drizzle-orm";
 
 export default function HomePage() {
   const router = useRouter();
-
-  const [floatingImages, setFloatingImages] = useState<
-    { id: number; url: string; top: number; left: number }[]
-  >([]);
-
   const [allImages, setAllImages] = useState<{ id: number; url: string }[]>([]);
+  const [videoUrl, setVideoUrl] = useState<string>("");
 
   useEffect(() => {
-    // Fetch only public images from the database
     const fetchImages = async () => {
       try {
         const result = await db
           .select()
           .from(images)
-          .where(eq(images.isPrivate, false)); // Filter out private images
-
+          .where(eq(images.isPrivate, false));
         if (result.length === 0) {
           console.error("No images found in the database.");
           return;
         }
-
-        setAllImages(result);
-        initializeFloatingImages(result);
+        const shuffledImages = result.sort(() => Math.random() - 0.5);
+        setAllImages(shuffledImages);
       } catch (error) {
         console.error("Failed to fetch images", error);
       }
     };
 
-    fetchImages();
-  }, []);
-
-  // Initialize floating images with random positions
-  const initializeFloatingImages = (images: { id: number; url: string }[]) => {
-    if (images.length === 0) return;
-
-    const initialImages = images.map((image) => ({
-      id: image.id,
-      url: image.url,
-      top: Math.random() * 100, // Random vertical position
-      left: Math.random() * 100, // Random horizontal position
-    }));
-
-    setFloatingImages(initialImages);
-  };
-
-  useEffect(() => {
-    // Control movement of floating images
-    const interval = setInterval(() => {
-      setFloatingImages((prevImages) =>
-        prevImages.map((img) => {
-          let newLeft = img.left + 0.1;
-          if (newLeft > 100) {
-            newLeft = -10;
-          }
-          return { ...img, left: newLeft };
-        })
+    const fetchVideo = async () => {
+      setVideoUrl(
+        "https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutRn1JM6RvIk5pOnFGovmXjSa8twVUilb0WEPz7"
       );
-    }, 50);
+    };
 
-    return () => clearInterval(interval);
+    fetchImages();
+    fetchVideo();
   }, []);
 
   return (
-    <main className="relative min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 overflow-hidden">
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {floatingImages.map((image, index) => (
-          <div
-            key={`${image.id}-${index}`}
-            className="absolute w-[10vw] h-[10vh] bg-cover bg-center rounded-md opacity-80 transition-transform duration-200"
-            style={{
-              top: `${image.top}vh`,
-              left: `${image.left}vw`,
-              backgroundImage: `url(${image.url})`,
-            }}
-          ></div>
-        ))}
+    <main className="relative w-full h-screen flex flex-col items-center justify-center text-gray-800 overflow-hidden">
+      {/* Background Video */}
+      <div className="absolute top-0 left-0 w-full h-full z-0">
+        {videoUrl && (
+          <video
+            className="w-full h-full object-cover translate-y-[-5%]"
+            autoPlay
+            muted
+            loop
+            playsInline
+            src={videoUrl}
+          />
+        )}
       </div>
 
-      <div className="relative z-10 text-center">
-        <h1 className="text-5xl font-bold mb-6">Discover Pampanga</h1>
-        <p className="text-lg text-gray-600 mb-8">
+      {/* Train of images at the bottom, now closer to center */}
+      <div className="absolute bottom-24 left-0 w-full overflow-hidden z-10">
+        <div className="flex animate-float-left space-x-8">
+          {[...allImages, ...allImages].map((image, index) => (
+            <div
+              key={`${image.id}-${index}`}
+              className="w-[35vw] sm:w-[30vw] md:w-[25vw] lg:w-[20vw] h-[20vw] bg-cover bg-center rounded-md opacity-90"
+              style={{ backgroundImage: `url(${image.url})`, height: "auto" }}
+            ></div>
+          ))}
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-20 text-center px-8 py-6 bg-white/40 backdrop-blur-lg rounded-lg shadow-lg max-w-xl">
+        <h1 className="text-4xl font-serif font-bold text-gray-900 mb-4">
+          Discover Pampanga
+        </h1>
+        <p className="text-s font-mono text-gray-800 mb-6">
           Explore the most beautiful tourist spots in Pampanga.
         </p>
-        <button
-          className="bg-blue-600 text-white px-6 py-3 rounded-xl text-lg font-semibold transition-transform transform hover:scale-105"
-          onClick={() => router.push("/home")}
-        >
-          Explore More
-        </button>
+
+        {/* Buttons */}
+        <div className="flex space-x-4 justify-center">
+          <button
+            className="w-36 h-10 flex items-center justify-center bg-blue-600 text-white rounded-lg text-lg font-semibold font-sans transition-transform transform hover:scale-105"
+            onClick={() => router.push("/home")}
+          >
+            Explore More
+          </button>
+
+          <button
+            className="w-36 h-10 flex items-center justify-center bg-green-600 text-white rounded-lg text-lg font-semibold font-sans transition-transform transform hover:scale-105"
+            onClick={() => router.push("/highlights")}
+          >
+            View Highlights
+          </button>
+        </div>
       </div>
     </main>
   );

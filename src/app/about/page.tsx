@@ -32,7 +32,7 @@ export default function AboutPage() {
             <div className="bg-white rounded-lg shadow-md p-6 text-center">
               <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
                 <Image
-                  src="https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutRgXftKPWTfe6Sx3FomiTvqQb8yEsGnIDJd4Yj"
+                  src="https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutRoojLY3McIlGB9ACk03Yyh2qjtfT4vDJEg68a"
                   alt="Team Member 1"
                   width={128}
                   height={128}
@@ -50,7 +50,7 @@ export default function AboutPage() {
             <div className="bg-white rounded-lg shadow-md p-6 text-center">
               <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
                 <Image
-                  src="https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutRd1i6zIxJ8xJ9vBApsfoz3eb4wUjMGZQIOtgT"
+                  src="https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutRQOPsLEXbkie3ZgXtVnwCmIv01csh8KWlG7MP"
                   alt="Team Member 2"
                   width={128}
                   height={128}
@@ -68,7 +68,7 @@ export default function AboutPage() {
             <div className="bg-white rounded-lg shadow-md p-6 text-center">
               <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
                 <Image
-                  src="https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutRJZ0kGQu2cqsG9Igepjb1vQzrOAU0ti3uyXl7"
+                  src="https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutR0tP6zQ7NXoD3LRYx4gu25hbs9QVBPCEI7yfT"
                   alt="Team Member 3"
                   width={128}
                   height={128}
@@ -86,7 +86,7 @@ export default function AboutPage() {
             <div className="bg-white rounded-lg shadow-md p-6 text-center">
               <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
                 <Image
-                  src="https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutR9iHBqgRcsQpayPXj3tq8TWdhlzmBOfG0n5gZ"
+                  src="https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutR5VmSblESdUnj0Wk4geF6X1Ru2Js3LYiMwxzG"
                   alt="Team Member 4"
                   width={128}
                   height={128}

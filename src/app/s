@@ -1,0 +1,202 @@
+// // "use client";
+// // import { useEffect, useState } from "react";
+// // import { useRouter } from "next/navigation";
+// // import { db } from "~/server/db";
+// // import { images } from "~/server/db/schema";
+// // import { eq } from "drizzle-orm";
+
+// // export default function HomePage() {
+// //   const router = useRouter();
+
+// //   const [floatingImages, setFloatingImages] = useState<
+// //     {
+// //       id: number;
+// //       url: string;
+// //     }[]
+// //   >([]);
+
+// //   const [allImages, setAllImages] = useState<{ id: number; url: string }[]>([]);
+
+// //   useEffect(() => {
+// //     // Fetch only public images from the database
+// //     const fetchImages = async () => {
+// //       try {
+// //         const result = await db
+// //           .select()
+// //           .from(images)
+// //           .where(eq(images.isPrivate, false)); // Filter out private images
+
+// //         if (result.length === 0) {
+// //           console.error("No images found in the database.");
+// //           return;
+// //         }
+
+// //         setAllImages(result);
+// //         initializeFloatingImages(result);
+// //       } catch (error) {
+// //         console.error("Failed to fetch images", error);
+// //       }
+// //     };
+
+// //     fetchImages();
+// //   }, []);
+
+// //   // Initialize floating images with random selection
+// //   const initializeFloatingImages = (images: { id: number; url: string }[]) => {
+// //     if (images.length === 0) return;
+
+// //     // Pick a random subset of images (e.g., 3 random images)
+// //     const randomImages = [];
+// //     const imageCount = Math.min(3, images.length); // Limit to 3 random images
+// //     for (let i = 0; i < imageCount; i++) {
+// //       const randomIndex = Math.floor(Math.random() * images.length);
+// //       randomImages.push(images[randomIndex]);
+// //     }
+
+// //     // Filter out undefined values (if any) from the randomImages array
+// //     setFloatingImages(randomImages.filter((img) => img !== undefined));
+// //   };
+
+// //   return (
+// //     <main className="relative min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 overflow-hidden">
+// //       <div className="absolute bottom-[10%] left-0 z-0 pointer-events-none flex">
+// //         <div className="flex">
+// //           {floatingImages.map((image) => (
+// //             <div
+// //               key={image.id}
+// //               className="w-[10vw] h-[10vh] bg-cover bg-center rounded-md border-2 border-gray-400 opacity-80 transition-transform duration-200 animate-float-right"
+// //               style={{
+// //                 backgroundImage: `url(${image.url})`,
+// //               }}
+// //             ></div>
+// //           ))}
+// //         </div>
+// //       </div>
+
+// //       <div className="relative z-10 text-center">
+// //         <h1 className="text-5xl font-bold mb-6">Discover Pampanga</h1>
+// //         <p className="text-lg text-gray-600 mb-8">
+// //           Explore the most beautiful tourist spots in Pampanga.
+// //         </p>
+// //         <button
+// //           className="bg-blue-600 text-white px-6 py-3 rounded-xl text-lg font-semibold transition-transform transform hover:scale-105"
+// //           onClick={() => router.push("/home")}
+// //         >
+// //           Explore More
+// //         </button>
+// //       </div>
+// //     </main>
+// //   );
+// // }
+
+
+
+
+
+
+
+// // "use client";
+// import { useEffect, useState } from "react";
+// import { useRouter } from "next/navigation";
+// import { db } from "~/server/db";
+// import { images } from "~/server/db/schema";
+// import { eq } from "drizzle-orm";
+
+// export default function HomePage() {
+//   const router = useRouter();
+
+//   const [floatingImages, setFloatingImages] = useState<
+//     { id: number; url: string; left: number }[] 
+//   >([]);
+
+//   const [allImages, setAllImages] = useState<{ id: number; url: string }[]>([]);
+
+//   useEffect(() => {
+//     // Fetch only public images from the database
+//     const fetchImages = async () => {
+//       try {
+//         const result = await db
+//           .select()
+//           .from(images)
+//           .where(eq(images.isPrivate, false)); // Filter out private images
+
+//         if (result.length === 0) {
+//           console.error("No images found in the database.");
+//           return;
+//         }
+
+//         setAllImages(result);
+//         initializeFloatingImages(result);
+//       } catch (error) {
+//         console.error("Failed to fetch images", error);
+//       }
+//     };
+
+//     fetchImages();
+//   }, []);
+
+//   // Initialize floating images with random positions and shuffled order
+//   const initializeFloatingImages = (images: { id: number; url: string }[]) => {
+//     if (images.length === 0) return;
+
+//     // Shuffle the images to display them randomly
+//     const shuffledImages = images.sort(() => Math.random() - 0.5);
+
+//     // Start images closer to the center with space between them
+//     const initialImages = shuffledImages.map((image, index) => ({
+//       id: image.id,
+//       url: image.url,
+//       left: 30 + index * 12, // Adjust space between images (increased)
+//     }));
+
+//     setFloatingImages(initialImages);
+//   };
+
+//   useEffect(() => {
+//     // Control movement of floating images to the right continuously
+//     const interval = setInterval(() => {
+//       setFloatingImages((prevImages) =>
+//         prevImages.map((img) => {
+//           let newLeft = img.left + 0.5;
+//           if (newLeft > 100) {
+//             newLeft = -10; // Reset position when image goes off screen
+//           }
+//           return { ...img, left: newLeft };
+//         })
+//       );
+//     }, 50);
+
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   return (
+//     <main className="relative min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 overflow-hidden">
+//       <div className="absolute bottom-[11%] left-0 z-0 pointer-events-none flex w-full">
+//         {floatingImages.map((image, index) => (
+//           <div
+//             key={`${image.id}-${index}`}
+//             className="absolute w-[10vw] h-[10vh] bg-cover bg-center rounded-md opacity-80 transition-transform duration-200"
+//             style={{
+//               left: `${image.left}vw`,
+//               bottom: "0", // Position images at the bottom of the screen
+//               backgroundImage: `url(${image.url})`,
+//             }}
+//           ></div>
+//         ))}
+//       </div>
+
+//       <div className="relative z-10 text-center">
+//         <h1 className="text-5xl font-bold mb-6">Discover Pampanga</h1>
+//         <p className="text-lg text-gray-600 mb-8">
+//           Explore the most beautiful tourist spots in Pampanga.
+//         </p>
+//         <button
+//           className="bg-blue-600 text-white px-6 py-3 rounded-xl text-lg font-semibold transition-transform transform hover:scale-105"
+//           onClick={() => router.push("/home")}
+//         >
+//           Explore More
+//         </button>
+//       </div>
+//     </main>
+//   );
+// }

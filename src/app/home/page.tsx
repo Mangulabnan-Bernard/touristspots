@@ -99,7 +99,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative h-[400px] overflow-hidden">
         <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="text-center text-white z-10">
+          <div className="text-center text-black z-10">
             <h1 className="text-5xl font-bold mb-4">Discover Pampanga</h1>
             <p className="text-xl">Explore the most beautiful tourist spots in Pampanga.</p>
           </div>
