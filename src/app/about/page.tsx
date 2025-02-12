@@ -68,7 +68,7 @@ export default function AboutPage() {
             <div className="bg-white rounded-lg shadow-md p-6 text-center">
               <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
                 <Image
-                  src="https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutR0tP6zQ7NXoD3LRYx4gu25hbs9QVBPCEI7yfT"
+                  src="https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutRFXXmQ0cK0QeEqUDxv1kNtAyVBi5b384WZmXs"
                   alt="Team Member 3"
                   width={128}
                   height={128}
@@ -86,7 +86,7 @@ export default function AboutPage() {
             <div className="bg-white rounded-lg shadow-md p-6 text-center">
               <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-4">
                 <Image
-                  src="https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutR5VmSblESdUnj0Wk4geF6X1Ru2Js3LYiMwxzG"
+                  src="https://mxatayqbwx.ufs.sh/f/PwsLPXIQSutR4mZ2FIyx43FHW8OLMiCuU1lgrsvVKaZbXQhG"
                   alt="Team Member 4"
                   width={128}
                   height={128}
