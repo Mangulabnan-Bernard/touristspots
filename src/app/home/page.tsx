@@ -54,7 +54,7 @@ const touristSpots = [
 // Reusable SpotCard Component
 const SpotCard = ({ spot, onClick }: { spot: any; onClick: () => void }) => (
   <div
-    className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+    className="bg-white rounded-lg shadow-xl hover:shadow-2xl transform transition-transform duration-300 hover:scale-105 cursor-pointer"
     onClick={onClick}
   >
     <Image
@@ -67,8 +67,8 @@ const SpotCard = ({ spot, onClick }: { spot: any; onClick: () => void }) => (
       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
     />
     <div className="p-6">
-      <h3 className="text-xl font-semibold mb-2">{spot.name}</h3>
-      <p className="text-gray-600 text-sm">{spot.description}</p>
+      <h3 className="text-xl font-semibold mb-2 text-gray-900">{spot.name}</h3>
+      <p className="text-gray-500 text-sm">{spot.description}</p>
       <button
         className="mt-4 inline-block text-blue-600 underline hover:text-blue-800 transition-colors duration-200"
         onClick={(e) => {
@@ -95,11 +95,11 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gray-50 text-gray-800">
+    <main className="min-h-screen bg-white text-gray-900">
       {/* Hero Section */}
       <section className="relative h-[400px] overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="text-center text-black z-10">
+        <div className="absolute inset-0 flex items-center justify-center bg-blue-500 bg-opacity-40">
+          <div className="text-center text-white z-10">
             <h1 className="text-5xl font-bold mb-4">Discover Pampanga</h1>
             <p className="text-xl">Explore the most beautiful tourist spots in Pampanga.</p>
           </div>
@@ -123,7 +123,7 @@ export default function HomePage() {
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
               />
               {/* Caption Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-blue-700 to-transparent">
                 <h2 className="text-lg font-semibold text-white">{spot.name}</h2>
                 <p className="text-sm text-white">{spot.description}</p>
               </div>
@@ -134,7 +134,7 @@ export default function HomePage() {
 
       {/* Featured Tourist Spots */}
       <section className="container mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold text-center mb-8">Featured Tourist Spots</h2>
+        <h2 className="text-3xl font-bold text-center mb-8 text-blue-600">Featured Tourist Spots</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {touristSpots.map((spot) => (
             <SpotCard

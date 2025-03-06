@@ -7,7 +7,7 @@ export function TopNav() {
   const router = useRouter();
   return (
 <nav className="fixed top-0 left-0 w-full flex items-center justify-between p-4 text-xl
- font-semibold text-white backdrop-blur-md z-10 bg-transparent">
+ font-semibold text-black backdrop-blur-md z-10 bg-transparent">
 {/* Logo */} 
 {/* border bg-blue-600 rounded-xl */}
   <Link

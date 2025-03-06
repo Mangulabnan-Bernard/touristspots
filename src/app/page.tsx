@@ -8,11 +8,11 @@ export default function HomePage() {
     "https://qbo5h06ezf.ufs.sh/f/S4R4KlDobPU9ZLolj8HTB0xvrhitKM6e7IEWuYP9LXao3l4S";
 
   return (
-    <main className="relative w-full h-screen flex flex-col items-center justify-center text-gray-800 overflow-hidden">
+    <main className="relative w-full min-h-screen flex flex-col items-center justify-center text-gray-800">
       {/* Background Video */}
-      <div className="absolute top-0 left-0 w-full h-full z-0">
+      <div className="fixed top-0 left-0 w-full h-full z-[-1]">
         <video
-          className="w-full h-full object-cover translate-y-[4%]"
+          className="w-full h-full object-cover"
           autoPlay
           loop
           playsInline
@@ -24,7 +24,6 @@ export default function HomePage() {
       <h1 className="text-4xl font-serif font-bold text-blue-900 drop-shadow-lg">
         Discover Pampanga
       </h1>
-      <p className="text-base font-mono text-blue-500 drop-shadow-lg mt-2"></p>
       <p className="text-base font-mono text-blue-500 drop-shadow-lg mt-2">
         Explore the most beautiful tourist spots in Pampanga.
       </p>

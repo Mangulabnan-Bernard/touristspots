@@ -2,21 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import { UploadButton } from "~/utils/uploadthing";
 import Image from "next/image";
+import Link from "next/link";
+
 import { fetchUserImages, deleteImages, updateImagePrivacy } from "./actions";
-
-export const dynamic = "force-dynamic";
-
-
-
+import { SimpleUploadButton } from "./simple-upload-button";
 
 export default function UploadPage() {
   const { user } = useUser();
   const [uploadedImages, setUploadedImages] = useState<
-    {
-      name: any; id: number; url: string; isPrivate: boolean 
-}[]
+    { name: string; id: number; url: string; isPrivate: boolean }[]
   >([]);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedImages, setSelectedImages] = useState<number[]>([]);
@@ -35,17 +30,9 @@ export default function UploadPage() {
     }
   };
 
-  // Call fetchImages once when the component mounts
-  // if (user) {
-  //   fetchImages();
-  // }
-
-  // Call fetchImages once when the component mounts
   useEffect(() => {
     fetchImages();
   }, [user]);
-
-
 
   const showMessage = (msg: string) => {
     setMessage(msg);
@@ -58,21 +45,10 @@ export default function UploadPage() {
     setSelectAll(false);
   };
 
-  const handleUploadComplete = (res: { url: string }[]) => {
-    if (res[0]?.url) {
-      setIsLoading(true);
-      fetchUserImages()
-        .then(setUploadedImages)
-        .finally(() => {
-          setIsLoading(false);
-          showMessage("✅ Upload successful!");
-        });
-    }
-  };
-
   const deleteSelectedImages = async () => {
     if (selectedImages.length === 0) return;
-    if (!confirm(`Are you sure you want to delete ${selectedImages.length} file(s)?`)) return;
+    if (!confirm(`Are you sure you want to delete ${selectedImages.length} file(s)?`))
+      return;
 
     await deleteImages(selectedImages);
     setUploadedImages((prev) => prev.filter((img) => !selectedImages.includes(img.id)));
@@ -82,7 +58,12 @@ export default function UploadPage() {
 
   const togglePrivacy = async (isPrivate: boolean) => {
     if (selectedImages.length === 0) return;
-    if (!confirm(`Are you sure you want to make ${selectedImages.length} file(s) ${isPrivate ? "private" : "public"}?`)) return;
+    if (
+      !confirm(
+        `Are you sure you want to make ${selectedImages.length} file(s) ${isPrivate ? "private" : "public"}?`
+      )
+    )
+      return;
 
     await updateImagePrivacy(selectedImages, isPrivate);
     setUploadedImages((prev) =>
@@ -115,34 +96,33 @@ export default function UploadPage() {
     setSelectAll(!selectAll);
   };
 
-  // Fetch images asynchronously
-  
-
   return (
-    <main className="min-h-screen bg-gray-50 text-gray-800 font-sans p-8">
-      <h1 className="text-4xl font-bold text-center transform translate-y-6 text-gray-900 mb-8">
+    <main className="min-h-screen bg-gray-50 text-gray-800 font-sans p-8 pb-24">
+      {/* pb-24 adds extra bottom padding so content isn’t hidden by the fixed controls */}
+      <h1 className="text-4xl font-bold text-center text-gray-900 mb-8">
         Upload Your Memories
       </h1>
 
       {message && (
-        <div className="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300">
+        <div className="fixed bottom-20 right-4 z-50 px-4 py-2 rounded shadow-lg transition-opacity duration-300 bg-green-600 text-white">
           {message}
         </div>
       )}
 
       <div className="flex justify-between items-center mb-6">
-        <UploadButton
-          endpoint="imageUploader"
-          onClientUploadComplete={handleUploadComplete}
-          className="border-blue-600 text-blue-600 bg-white px-3 py-1 rounded shadow-sm hover:bg-blue-100 transition-colors"
-        />
-
+        <SimpleUploadButton onUploadComplete={fetchImages} />
         <div className="flex gap-3">
-          <button className="text-gray-600 hover:text-gray-900 font-medium" onClick={toggleSelectionMode}>
+          <button
+            className="text-gray-600 hover:text-gray-900 font-medium"
+            onClick={toggleSelectionMode}
+          >
             {isSelectionMode ? "Cancel" : "Select"}
           </button>
           {isSelectionMode && (
-            <button className="text-gray-600 hover:text-gray-900 font-medium" onClick={toggleSelectAll}>
+            <button
+              className="text-gray-600 hover:text-gray-900 font-medium"
+              onClick={toggleSelectAll}
+            >
               {selectAll ? "Deselect All" : "Select All"}
             </button>
           )}
@@ -170,36 +150,42 @@ export default function UploadPage() {
                   onChange={() => toggleImageSelection(image.id)}
                 />
               )}
-              {/* <Image
-                src={image.url}
-                alt={`Uploaded Memory ${image.name}`}
-                width={500}
-                height={500}
-                className="object-cover w-full h-40 rounded-t-lg"
-              /> */}
-
-            <img
-                src={image.url}
-                style={{ objectFit: "contain" }}
-                alt={`Uploaded Memory ${image.name}`}
-                width={500}
-                height={500}
-                className="object-cover w-full h-40 rounded-t-lg"
-              />        
+              <Link href={`/img/${image.id}`}>
+                <Image
+                  src={image.url}
+                  alt={`Uploaded Memory ${image.name}`}
+                  width={500}
+                  height={500}
+                  className="object-cover w-full h-40 rounded-t-lg"
+                />
+                <div className="text-center text-sm text-gray-700 mt-2">
+                  {image.name}
+                </div>
+              </Link>
             </div>
           ))}
         </div>
       )}
 
+      {/* Fixed controls at bottom with no background */}
       {isSelectionMode && selectedImages.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white p-4 flex justify-center items-center border-t border-gray-200 shadow-md">
-          <button className="w-10 h-10 bg-red-500 text-white rounded-full mx-2 hover:bg-red-600 transition" onClick={deleteSelectedImages}>
+        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 flex justify-center items-center">
+          <button
+            className="w-10 h-10 bg-red-500 text-white rounded-full mx-2 hover:bg-red-600 transition"
+            onClick={deleteSelectedImages}
+          >
             🗑️
           </button>
-          <button className="w-10 h-10 bg-yellow-500 text-white rounded-full mx-2 hover:bg-yellow-600 transition" onClick={() => togglePrivacy(true)}>
+          <button
+            className="w-10 h-10 bg-yellow-500 text-white rounded-full mx-2 hover:bg-yellow-600 transition"
+            onClick={() => togglePrivacy(true)}
+          >
             🔒
           </button>
-          <button className="w-10 h-10 bg-green-500 text-white rounded-full mx-2 hover:bg-green-600 transition" onClick={() => togglePrivacy(false)}>
+          <button
+            className="w-10 h-10 bg-green-500 text-white rounded-full mx-2 hover:bg-green-600 transition"
+            onClick={() => togglePrivacy(false)}
+          >
             🔓
           </button>
         </div>
