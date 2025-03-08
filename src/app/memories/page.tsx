@@ -151,13 +151,21 @@ export default function UploadPage() {
                 />
               )}
               <Link href={`/img/${image.id}`}>
-                <Image
+                {/* <Image
+                  src={image.url}
+                  alt={`Uploaded Memory ${image.name}`}
+                  width={500}
+                  height={500}
+                  className="object-cover w-full h-40 rounded-t-lg"
+                  /> */}
+                  <img
                   src={image.url}
                   alt={`Uploaded Memory ${image.name}`}
                   width={500}
                   height={500}
                   className="object-cover w-full h-40 rounded-t-lg"
                 />
+
                 <div className="text-center text-sm text-gray-700 mt-2">
                   {image.name}
                 </div>
