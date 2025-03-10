@@ -1,193 +1,80 @@
-// // app/memories/uploadPage.tsx
-// "use client";  // Ensures that this component runs on the client side
+"use client";
 
-// import { useEffect, useState } from "react";
-// import { useUser } from "@clerk/nextjs";
-// import { UploadButton } from "~/utils/uploadthing";
-// import Image from "next/image";
-// import Link from "next/link";
+import { useRouter } from "next/navigation";
+import{ use } from "react";
+import { toast } from "sonner";
 
-// // Assuming these functions are correctly defined and imported from your API routes or a utility file
-// import { fetchUserImages, deleteImages, updateImagePrivacy } from "./actions";
+import { useUploadThing } from "~/utils/uploadthing";
 
-// export default function UploadPage() {
-//   const { user } = useUser();
-//   const [uploadedImages, setUploadedImages] = useState<
-//     {
-//       name: string;
-//       id: number;
-//       url: string;
-//       isPrivate: boolean;
-//     }[]
-//   >([]);
-//   const [isSelectionMode, setIsSelectionMode] = useState(false);
-//   const [selectedImages, setSelectedImages] = useState<number[]>([]);
-//   const [selectAll, setSelectAll] = useState(false);
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [message, setMessage] = useState<string | null>(null);
+// inferred input off useuploadThing
 
-//   const fetchImages = async () => {
-//     if (user) {
-//       try {
-//         const images = await fetchUserImages();
-//         setUploadedImages(images);
-//       } catch (error) {
-//         console.error("Error fetching images:", error);
-//       }
-//     }
-//   };
+type Input = Parameters<typeof useUploadThing>;
 
-//   useEffect(() => {
-//     fetchImages();
-//   }, [user]);
 
-//   const showMessage = (msg: string) => {
-//     setMessage(msg);
-//     setTimeout(() => setMessage(null), 3000);
-//   };
+const useUploadThingInputProps =(...args:Input) => {
 
-//   const resetSelection = () => {
-//     setIsSelectionMode(false);
-//     setSelectedImages([]);
-//     setSelectAll(false);
-//   };
+const $ut = useUploadThing(...args);
 
-//   const handleUploadComplete = (res: { url: string }[]) => {
-//     if (res[0]?.url) {
-//       setIsLoading(true);
-//       fetchUserImages()
-//         .then(setUploadedImages)
-//         .finally(() => {
-//           setIsLoading(false);
-//           showMessage("✅ Upload successful!");
-//         });
-//     }
-//   };
+const onChange = async (e: React.ChangeEvent<HTMLInputElement>)=>{
+if (!e.target.files) return;
 
-//   const deleteSelectedImages = async () => {
-//     if (selectedImages.length === 0) return;
-//     if (!confirm(`Are you sure you want to delete ${selectedImages.length} file(s)?`)) return;
+const selectedFiles = Array.from(e.target.files);
 
-//     await deleteImages(selectedImages);
-//     setUploadedImages((prev) => prev.filter((img) => !selectedImages.includes(img.id)));
-//     resetSelection();
-//     showMessage("🗑️ Images deleted successfully!");
-//   };
+const result = await $ut.startUpload(selectedFiles);
 
-//   const togglePrivacy = async (isPrivate: boolean) => {
-//     if (selectedImages.length === 0) return;
-//     if (!confirm(`Are you sure you want to make ${selectedImages.length} file(s) ${isPrivate ? "private" : "public"}?`)) return;
+console.log("uploaded files", result);// TOD0: persist result in state maybe?
+};
 
-//     await updateImagePrivacy(selectedImages, isPrivate);
-//     setUploadedImages((prev) =>
-//       prev.map((img) => (selectedImages.includes(img.id) ? { ...img, isPrivate } : img))
-//     );
-//     resetSelection();
-//     showMessage(isPrivate ? "🔒 Images made private!" : "🔓 Images made public!");
-//   };
+return { 
+    inputProps: {
+        onChange,
+multiple:($ut.routeConfig?.image?.maxFileCount ??1)>1,
+     accept: "image/*",
+    },
+     isuploading: $ut.isUploading,
+};
+};
 
-//   const toggleSelectionMode = () => {
-//     setIsSelectionMode(!isSelectionMode);
-//     setSelectedImages([]);
-//     setSelectAll(false);
-//   };
+function UploadSVG(){
+    return(
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+</svg>
 
-//   const toggleImageSelection = (id: number) => {
-//     setSelectedImages((prevSelected) =>
-//       prevSelected.includes(id)
-//         ? prevSelected.filter((selectedId) => selectedId !== id)
-//         : [...prevSelected, id]
-//     );
-//   };
+    );
+}
 
-//   const toggleSelectAll = () => {
-//     if (selectAll) {
-//       setSelectedImages([]);
-//     } else {
-//       setSelectedImages(uploadedImages.map((image) => image.id));
-//     }
-//     setSelectAll(!selectAll);
-//   };
+export function SimpleUploadButton(){
 
-//   return (
-//     <main className="min-h-screen bg-gray-50 text-gray-800 font-sans p-8">
-//       <h1 className="text-4xl font-bold text-center transform translate-y-6 text-gray-900 mb-8">
-//         Upload Your Memories
-//       </h1>
+    const router = useRouter();
+    const {inputProps} = useUploadThingInputProps("imageUploader", {
+        onUploadBegin(){
+            toast (
+              <div className="text-white">
+                <span className="text-lg"> Uploading....</span>
+              </div>,
+              {
+                duration: 100000,
+                id: "upload-begin",
+              });
+      },
+        onClientUploadComplete(){
+            toast.dismiss("upload-begin");
+            toast ("Upload Complete!");
+        router.refresh();
+    },
+});
+    
+    return(
+        <div>
+    
+    <label htmlFor="upload-button" className="cursor-pointer">
+        <UploadSVG/>
+    </label>
+    <input type="file" id="upload-button" {...inputProps}
+    className="sr-only" />
+    </div>
 
-//       {message && (
-//         <div className="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300">
-//           {message}
-//         </div>
-//       )}
-
-//       <div className="flex justify-between items-center mb-6">
-//         <UploadButton
-//           endpoint="imageUploader"
-//           onClientUploadComplete={handleUploadComplete}
-//           className="border-blue-600 text-blue-600 bg-white px-3 py-1 rounded shadow-sm hover:bg-blue-100 transition-colors"
-//         />
-
-//         <div className="flex gap-3">
-//           <button className="text-gray-600 hover:text-gray-900 font-medium" onClick={toggleSelectionMode}>
-//             {isSelectionMode ? "Cancel" : "Select"}
-//           </button>
-//           {isSelectionMode && (
-//             <button className="text-gray-600 hover:text-gray-900 font-medium" onClick={toggleSelectAll}>
-//               {selectAll ? "Deselect All" : "Select All"}
-//             </button>
-//           )}
-//         </div>
-//       </div>
-
-//       {isLoading && (
-//         <p className="text-center text-blue-500 font-medium">Uploading your image...</p>
-//       )}
-
-//       {uploadedImages.length > 0 && (
-//         <div className="grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-6">
-//           {uploadedImages.map((image) => (
-//             <div
-//               key={image.id}
-//               className={`relative w-[140px] h-[140px] rounded-lg overflow-hidden shadow-md border-2 ${
-//                 image.isPrivate ? "border-red-500" : "border-gray-300"
-//               } group`}
-//             >
-//               {isSelectionMode && (
-//                 <input
-//                   type="checkbox"
-//                   className="absolute top-2 left-2 w-5 h-5 accent-blue-600 z-10 cursor-pointer"
-//                   checked={selectedImages.includes(image.id)}
-//                   onChange={() => toggleImageSelection(image.id)}
-//                 />
-//               )}
-//               <Link href={`img/${image.id}`}>
-//                 <Image
-//                   src={image.url}
-//                   alt={`Uploaded Memory ${image.name}`}
-//                   width={500}
-//                   height={500}
-//                   className="object-cover w-full h-40 rounded-t-lg"
-//                 />
-//               </Link>
-//             </div>
-//           ))}
-//         </div>
-//       )}
-
-//       {isSelectionMode && selectedImages.length > 0 && (
-//         <div className="fixed bottom-0 left-0 right-0 bg-white p-4 flex justify-center items-center border-t border-gray-200 shadow-md">
-//           <button className="w-10 h-10 bg-red-500 text-white rounded-full mx-2 hover:bg-red-600 transition" onClick={deleteSelectedImages}>
-//             🗑️
-//           </button>
-//           <button className="w-10 h-10 bg-yellow-500 text-white rounded-full mx-2 hover:bg-yellow-600 transition" onClick={() => togglePrivacy(true)}>
-//             🔒
-//           </button>
-//           <button className="w-10 h-10 bg-green-500 text-white rounded-full mx-2 hover:bg-green-600 transition" onClick={() => togglePrivacy(false)}>
-//             🔓
-//           </button>
-//         </div>
-//       )}
-//     </main>
-//   );
-// }
+    );
+}
+    

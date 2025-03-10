@@ -1,68 +1,96 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import{ use } from "react";
+import { toast } from "sonner";
 import { useUploadThing } from "~/utils/uploadthing";
 
-// Inferred input type from useUploadThing
+// inferred input off useuploadThing
+
 type Input = Parameters<typeof useUploadThing>;
 
-const useuploadThingInputProps = (...args: Input) => {
-  const $ut = useUploadThing(...args);
 
-  const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("File input changed:", e.target.files);
-    if (!e.target.files) return;
+const useUploadThingInputProps =(...args:Input) => {
 
-    const selectedFiles = Array.from(e.target.files);
-    const result = await $ut.startUpload(selectedFiles);
+const $ut = useUploadThing(...args);
 
-    console.log("Uploaded files", result);
-    // Optionally persist result in state if needed
-  };
+const onChange = async (e: React.ChangeEvent<HTMLInputElement>)=>{
+if (!e.target.files) return;
 
-  return {
+const selectedFiles = Array.from(e.target.files);
+
+const result = await $ut.startUpload(selectedFiles);
+
+console.log("uploaded files", result);// TOD0: persist result in state maybe?
+};
+
+return { 
     inputProps: {
-      onChange,
-      multiple: ($ut.routeConfig?.image?.maxFileCount ?? 1) > 1,
-      accept: "image/*",
+        onChange,
+multiple:($ut.routeConfig?.image?.maxFileCount ??1)>1,
+     accept: "image/*",
     },
-    isUploading: $ut.isUploading,
-  };
+     isuploading: $ut.isUploading,
+};
 };
 
-function UploadSVG() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className="w-6 h-6"
-    >
-      <path d="M9.97.97a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1-1.06 1.06l-1.72-1.72v3.44h-1.5V3.31L8.03 5.03a.75.75 0 0 1-1.06-1.06l3-3ZM9.75 6.75v6a.75.75 0 0 0 1.5 0v-6h3a3 3 0 0 1 3 3v7.5a3 3 0 0 1-3 3h-7.5a3 3 0 0 1-3-3v-7.5a3 3 0 0 1 3-3h3Z" />
-      <path d="M7.151 21.75a2.999 2.999 0 0 0 2.599 1.5h7.5a3 3 0 0 0 3-3v-7.5c0-1.11-.603-2.08-1.5-2.599v7.099a4.5 4.5 0 0 1-4.5 4.5H7.151Z" />
-    </svg>
-  );
+function UploadSVG(){
+    return(
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+</svg>
+
+    );
 }
 
-type SimpleUploadButtonProps = {
-  onUploadComplete: () => void;
-};
-
-export function SimpleUploadButton({ onUploadComplete }: SimpleUploadButtonProps) {
-  // Pass the callback to our upload hook instead of using router.refresh()
-  const { inputProps, isUploading } = useuploadThingInputProps("imageUploader", {
-    onClientUploadComplete() {
-      onUploadComplete();
-    },
-  });
-  
+function LoadingSpinnerSVG(){
   return (
-    <div>
-      <label htmlFor="upload-button" className="cursor-pointer flex items-center space-x-2">
-        <UploadSVG /><span>Upload</span>
-        {isUploading && <span>Uploading...</span>}
-      </label>
-      <input type="file" id="upload-button" {...inputProps} className="sr-only" />
+  <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white" >
+    <g className="spinner_Wezc"><circle cx="12" cy="2.5" r="1.5" opacity=".14"/><circle cx="16.75" cy="3.77" r="1.5" opacity=".29"/>
+    <circle cx="20.23" cy="7.25" r="1.5" opacity=".43"/><circle cx="21.50" cy="12.00" r="1.5" opacity=".57"/><circle cx="20.23" cy="16.75" r="1.5" opacity=".71"/><circle cx="16.75" cy="20.23" r="1.5" opacity=".86"/>
+    <circle cx="12" cy="21.5" r="1.5"/></g></svg>);
+}
+
+export function SimpleUploadButton({
+  onUploadComplete,
+}: {
+  onUploadComplete?: () => any;
+}) {
+    const router = useRouter();
+    const {inputProps} = useUploadThingInputProps("imageUploader", {
+        onUploadBegin(){
+            toast (
+              <div className="flex item-center gap-2 text-white">
+                <LoadingSpinnerSVG/>
+                <span className="text-lg"> Uploading....</span>
+              </div>,
+              {
+                duration: 100000,
+                id: "upload-begin",
+              });
+      },
+        onClientUploadComplete(){
+          toast (<span className="text-lg">"Upload Complete!"</span>);
+            toast.dismiss("upload-begin");
+            // setTimeout(() => {
+            //   toast.success("Upload Complete!");
+            // }, 100); 
+            onUploadComplete?.();
+          
+             router.refresh();
+    },
+});
+    
+    return(
+        <div>
+    
+    <label htmlFor="upload-button" className="cursor-pointer">
+        <UploadSVG/>
+    </label>
+    <input type="file" id="upload-button" {...inputProps}
+    className="sr-only" />
     </div>
-  );
+
+    );
 }
+    
