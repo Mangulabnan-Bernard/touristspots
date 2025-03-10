@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SignedIn, SignedOut, UserButton, SignInButton } from "@clerk/nextjs";
 
 export default function ContactPage() {
@@ -20,7 +20,9 @@ export default function ContactPage() {
     setFormData({ name: "", email: "", message: "" });
     alert("Message sent successfully!");
   };
-
+  useEffect(() => {
+    // Any client-side only code can go here
+  }, []);
   return (
     <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-pink-50 text-gray-800 font-sans p-8">
       <section className="container mx-auto max-w-4xl bg-white shadow-lg rounded-3xl p-8">

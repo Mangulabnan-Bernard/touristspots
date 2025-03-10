@@ -8,6 +8,9 @@ const coreConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  env: {
+    POSTGRES_URL: process.env.POSTGRES_URL,
+  },
   images: {
     remotePatterns: [{ hostname: "mxatayqbwx.ufs.sh" },{ hostname: "utfs.io" }]
      // Allowed image domains

@@ -59,8 +59,7 @@ export function SimpleUploadButton({ onUploadComplete }: SimpleUploadButtonProps
   return (
     <div>
       <label htmlFor="upload-button" className="cursor-pointer flex items-center space-x-2">
-        <UploadSVG />
-        {!isUploading && <span>Upload Image</span>}
+        <UploadSVG /><span>Upload</span>
         {isUploading && <span>Uploading...</span>}
       </label>
       <input type="file" id="upload-button" {...inputProps} className="sr-only" />
