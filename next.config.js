@@ -8,6 +8,24 @@ const coreConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/ingest/static/:path*",
+        destination: "https://us-assets.i.posthog.com/static/:path*",
+      },
+      {
+        source: "/ingest/:path*",
+        destination: "https://us.i.posthog.com/:path*",
+      },
+      {
+        source: "/ingest/decide",
+        destination: "https://us.i.posthog.com/decide",
+      },
+    ];
+  },
+  // This is required to support PostHog trailing slash API requests
+  skipTrailingSlashRedirect: true, 
   env: {
     POSTGRES_URL: process.env.POSTGRES_URL,
   },
@@ -15,33 +33,9 @@ const coreConfig = {
     remotePatterns: [{ hostname: "mxatayqbwx.ufs.sh" },{ hostname: "utfs.io" }]
      // Allowed image domains
   },
-  // env: {
-  //   POSTGRES_URL: process.env.POSTGRES_URL,
-  // },
+ 
 };
-
-// Define tourist spots array
-// export const touristSpots = [
-//   {
-//     id: 1,
-//     name: "Mount Arayat",
-//     description: "A majestic mountain known for its lush greenery and hiking trails.",
-//     imageUrl: "https://example.com/images/mount-arayat.jpg", // Replace with a real image URL
-//   },
-//   {
-//     id: 2,
-//     name: "San Guillermo Parish Church",
-//     description: "A historic church with stunning architecture and religious significance.",
-//     imageUrl: "https://example.com/images/san-guillermo-church.jpg", // Replace with a real image URL
-//   },
-//   {
-//     id: 3,
-//     name: "Miyamit Falls",
-//     description: "A breathtaking waterfall surrounded by nature's beauty.",
-//     imageUrl: "https://example.com/images/miyamit-falls.jpg", // Replace with a real image URL
-//   },
-// ];
-
+ 
 import { withSentryConfig } from "@sentry/nextjs";
 
 const config = withSentryConfig(coreConfig,{

@@ -10,6 +10,7 @@ import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { ReactNode } from "react";
 import { Toaster } from "~/components/ui/sonner";
+import { PostHogProvider } from "./_analytics/providers";
  
 export const metadata: Metadata = {
   title: "TouristSpots",
@@ -34,18 +35,21 @@ export default function RootLayout({
           routerConfig={extractRouterConfig(ourFileRouter)}
         />
          <body>
-         <div className="pt-[64px]"> {/* Padding to avoid overlap */}
+         <PostHogProvider>
+
+         <div className="pt-[64px]"> 
   <div className="grid grid-rows-[auto,1fr] h-screen">
     <TopNav />
     <main >
       {children}
-    </main>
-  </div>
-</div>
+          </main>
+        </div>
+      </div>
 
           {modal}
           <div id="modal-root"></div>
           <Toaster />
+          </PostHogProvider>
         </body>
       </html>
     </ClerkProvider>
