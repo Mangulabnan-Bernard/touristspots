@@ -57,7 +57,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gray-100 dark:bg-black text-gray-900 dark:text-white flex flex-col items-center py-10">
+    <main className="min-h-screen bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white flex flex-col items-center py-10">
       
       {/* Hero Section (Boxed) */}
       <section className="relative w-[90%] md:w-[80%] lg:w-[70%] bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden mb-10">
