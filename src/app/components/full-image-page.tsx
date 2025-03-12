@@ -8,7 +8,7 @@ export default async function FullPageImageView(props: { id: number }) {
         users.getUser(image.userId);
 
     return (
-        <div className="flex h-full w-full min-w-0">
+        <div className="flex h-full w-full min-w-0 bg-white text-black dark:bg-gray-800 dark:text-gray-200">
             {/* Image Section */}
             <div className="flex items-center justify-center w-1/2">
                 <img
@@ -19,11 +19,11 @@ export default async function FullPageImageView(props: { id: number }) {
             </div>
 
             {/* Details Section */}
-            <div className="flex flex-col w-1/2 border-l">
+            <div className="flex flex-col w-1/2 border-l border-gray-300 dark:border-gray-700">
                 <div className="border-b p-2 text-center text-lg">{image.name}</div>
 
                 <div className="flex flex-col p-2">
-                    <span>Uploaded By:</span>
+                    <span className="text-gray-700 dark:text-gray-300">Uploaded By:</span>
                     <span>{uploaderInfo.fullName}</span>
                 </div>
 

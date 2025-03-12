@@ -1,11 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
-// src/app/spots/church/page.tsx
 "use client";
 import Image from "next/image";
 
 export default function SanGuillermoChurchPage() {
   return (
-    <main className="min-h-screen bg-gray-100 text-gray-800 font-sans">
+    <main className="min-h-screen bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-white font-sans">
       {/* Hero Section */}
       <section className="relative h-[600px] w-full overflow-hidden">
         <Image
@@ -26,7 +25,7 @@ export default function SanGuillermoChurchPage() {
             </p>
             <a
               href="#details"
-              className="bg-white text-gray-800 py-3 px-6 rounded-lg font-semibold hover:bg-gray-200 transition duration-300"
+              className="bg-white text-gray-800 dark:bg-gray-700 dark:text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-300"
             >
               Learn More
             </a>
@@ -38,22 +37,22 @@ export default function SanGuillermoChurchPage() {
       <section id="details" className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">
+            <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
               About San Guillermo Parish Church
             </h2>
-            <p className="text-lg text-gray-600 mb-6">
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
               San Guillermo Parish Church is a Roman Catholic church in
               Bacolor, Pampanga, Philippines, under the Archdiocese of San
               Fernando. Named after Bacolor's patron saint, San Guillermo, it
               was originally built by Augustinian Friars in 1576.
             </p>
-            <p className="text-lg text-gray-600 mb-6">
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
               The church has a rich history, having been destroyed by an
               earthquake in 1880 and rebuilt in 1886. In 1995, the church was
               half-buried by lahar from the eruption of Mount Pinatubo, making
               it a unique and poignant landmark.
             </p>
-            <p className="text-lg text-gray-600 mb-6">
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
               Despite the lahar damage, the church remains an active place of
               worship and a popular tourist destination. The ornate main
               retablo, side retablos, and pulpit, gilded with gold leaf,
@@ -74,30 +73,29 @@ export default function SanGuillermoChurchPage() {
         </div>
       </section>
 
-
-      {/* Additional Information Section (Example) */}
-      <section className="container mx-auto px-4 py-12 bg-gray-50">
-        <h2 className="text-3xl font-bold mb-4 text-gray-900 text-center">
+      {/* Additional Information Section */}
+      <section className="container mx-auto px-4 py-12 bg-gray-50 dark:bg-gray-800">
+        <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white text-center">
           More about San Guillermo
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-xl font-semibold mb-2 text-gray-900">
+          <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6">
+            <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
               Architecture and Features
             </h3>
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-300">
               The church's interior boasts a central nave and a well-lit
               transept with windows. The gilded retablos and pulpit are
-              characteristic of the Baroque and Rococo styles.  The retablos
+              characteristic of the Baroque and Rococo styles. The retablos
               contain centuries-old statues that were saved from the lahar.
               The choir area was moved after the eruption.
             </p>
           </div>
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-xl font-semibold mb-2 text-gray-900">
+          <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md p-6">
+            <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
               Museo de Bacolor
             </h3>
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-300">
               The museum within the church, also known as Recuerdos Sagrados de
               Bacolor (Sacred Memorabilia of Bacolor), displays items related
               to the church's history and the impact of the Mount Pinatubo
@@ -107,15 +105,16 @@ export default function SanGuillermoChurchPage() {
         </div>
       </section>
 
-      {/* Media Section (Example) */}
+      {/* Media Section */}
       <section className="container mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold mb-4 text-gray-900 text-center">Media</h2>
-        <p className="text-lg text-gray-600">
+        <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white text-center">
+          Media
+        </h2>
+        <p className="text-lg text-gray-600 dark:text-gray-300">
           San Guillermo Parish Church has been featured in various media,
           including the ABS-CBN show "May Bukas Pa" and films like "Istokwa"
           and "Summer Heat."
         </p>
-        {/* Add more media details as needed */}
       </section>
     </main>
   );

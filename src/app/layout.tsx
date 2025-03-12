@@ -11,6 +11,7 @@ import { ourFileRouter } from "./api/uploadthing/core";
 import { ReactNode } from "react";
 import { Toaster } from "~/components/ui/sonner";
 import { PostHogProvider } from "./_analytics/providers";
+import { ThemeProvider } from "./components/theme-provider";
  
 export const metadata: Metadata = {
   title: "TouristSpots",
@@ -24,8 +25,8 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode; modal:React.ReactNode}>) {
   return (
     <ClerkProvider>
-    <html lang="en" className={`${GeistSans.variable} dark`}>
-        <NextSSRPlugin
+<html lang="en" className={`${GeistSans.variable} dark:bg-gray-900 bg-white`}>
+<NextSSRPlugin
           /**
            * The `extractRouterConfig` will extract **only** the route configs
            * from the router to prevent additional information from being
@@ -34,7 +35,9 @@ export default function RootLayout({
            */
           routerConfig={extractRouterConfig(ourFileRouter)}
         />
-         <body>
+        <body suppressHydrationWarning>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+            
          <PostHogProvider>
 
          <div className="pt-[64px]"> 
@@ -50,6 +53,8 @@ export default function RootLayout({
           <div id="modal-root"></div>
           <Toaster />
           </PostHogProvider>
+          </ThemeProvider>
+
         </body>
       </html>
     </ClerkProvider>

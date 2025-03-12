@@ -81,7 +81,6 @@ export function SimpleUploadButton({
             //   toast.success("Upload Complete!");
             // }, 100); 
             onUploadComplete?.();
-          
              router.refresh();
     },
 });
