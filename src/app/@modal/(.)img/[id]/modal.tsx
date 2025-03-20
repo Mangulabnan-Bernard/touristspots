@@ -6,11 +6,11 @@ import { createPortal } from "react-dom";
 export function Modal ({children } : {children: React.ReactNode}) {
      
     const router = useRouter ();
-    const diaglogRef = useRef<ElementRef<"dialog"> > (null);
+    const dialogRef = useRef<ElementRef<"dialog"> > (null);
 
     useEffect(() =>{
-    if (!diaglogRef.current?.open){
-        diaglogRef.current?.showModal();
+    if (!dialogRef.current?.open){
+        dialogRef.current?.showModal();
 
     }    
  
@@ -21,11 +21,13 @@ function onDismiss(){
 };
 
 return createPortal(
-    <dialog ref={diaglogRef} 
-    className="m-0 h-screen w-screen bg-black/90text-white "
+    <dialog ref={dialogRef} 
+   className="fixed inset-0 flex items-center justify-center bg-black/90"
     onClose={onDismiss}>
+        <div className="bg-transparent text-white p-4 rounded-lg">
         {children}
-     </dialog>,
+      </div>
+    </dialog>,
      document.getElementById("modal-root")!
 );
 }

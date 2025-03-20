@@ -12,7 +12,7 @@ export default async function PhotoModal({
     };
 }){
     const photoId = (await params).id;  
-    const idAsNumber =Number (photoId);
+    const idAsNumber = Number (photoId);
    
    if (Number.isNaN(idAsNumber)) throw new Error ("Invalid photo ID");
    const images = await getMyImage(idAsNumber);

@@ -8,7 +8,7 @@ export default async function FullPageImageView(props: { id: number }) {
         users.getUser(image.userId);
 
     return (
-        <div className="flex h-full w-full min-w-0 bg-white text-black dark:bg-gray-800 dark:text-gray-200">
+        <div className="flex h-full w-full p-10 min-w-0 bg-white text-black dark:bg-gray-800 dark:text-gray-200">
             {/* Image Section */}
             <div className="flex items-center justify-center w-1/2">
                 <img
