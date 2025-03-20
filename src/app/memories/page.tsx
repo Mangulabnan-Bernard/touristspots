@@ -54,7 +54,7 @@ export default function UploadPage() {
     };
 
     return (
-        <main className="min-h-screen bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200 font-sans p-8 pb-24 transition">
+        <main className="min-h-screen bg-gray-50 text-gray-800 dark:bg-gray-800 dark:text-gray-200 font-sans p-8 pb-24 transition">
             <h1 className="text-4xl font-bold text-center text-gray-900 dark:text-gray-100 mb-8">Upload Your Memories</h1>
 
             <div className="flex justify-between items-center mb-6">

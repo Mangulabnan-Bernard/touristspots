@@ -20,6 +20,11 @@ export default function HomePage() {
         />
       </div>
 
+      <style jsx global>{`
+        html, body {
+          overflow: hidden;
+        }
+      `}</style>
       {/* Main Content */}
       <h1 className="text-4xl font-serif font-bold text-blue-900 drop-shadow-lg">
         Discover Pampanga

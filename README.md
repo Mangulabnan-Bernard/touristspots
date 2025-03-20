@@ -8,4 +8,4 @@
 - [✔️] Add Image Upload
 - [✔️] "taint" (Server-Only)
 - [✔️] Error Management (w/ Setry)
-- []
+- [✔️] Email send using resend nextjs
